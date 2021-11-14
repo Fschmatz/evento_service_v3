@@ -24,6 +24,16 @@ public class EventoController {
 
     EventoRepository repository;
 
+    @GetMapping("/")
+    public String homePage() {
+        return "home";
+    }
+
+    @GetMapping("/error")
+    public String errorPage() {
+        return "error";
+    }
+
     @RequestMapping("/listarEventos")
     public ModelAndView listarCategoria(){
         ModelAndView mv = new ModelAndView("listarEventos");
