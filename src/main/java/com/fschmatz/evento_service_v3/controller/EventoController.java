@@ -29,11 +29,6 @@ public class EventoController {
         return "home";
     }
 
-    @GetMapping("/error")
-    public String errorPage() {
-        return "error";
-    }
-
     @RequestMapping("/listarEventos")
     public ModelAndView listarCategoria(){
         ModelAndView mv = new ModelAndView("listarEventos");
