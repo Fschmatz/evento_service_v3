@@ -24,16 +24,24 @@ public class EventoController {
 
     EventoRepository repository;
 
-    @GetMapping("/")
+    /*@GetMapping("/")
     public String homePage() {
         return "home";
     }
-
+*/
     @RequestMapping("/listarEventos")
     public ModelAndView listarCategoria(){
         ModelAndView mv = new ModelAndView("listarEventos");
         Iterable<Evento> eventos = repository.findAll();
         mv.addObject("eventos", eventos);
+        return mv;
+    }
+
+    @RequestMapping("/eventosUsuario/{id}")
+    public ModelAndView eventosUsuario(@PathVariable("id") Integer id){
+        ModelAndView mv = new ModelAndView("eventosUsuario");
+        Iterable<Evento> eventos = repository.findAll();
+        mv.addObject("eventosUsuario", eventos);
         return mv;
     }
 
