@@ -37,6 +37,7 @@ public class EventoController {
         return mv;
     }
 
+
     @RequestMapping("/eventosUsuario/{id}")
     public ModelAndView eventosUsuario(@PathVariable("id") Integer id){
         ModelAndView mv = new ModelAndView("eventosUsuario");
@@ -94,7 +95,7 @@ public class EventoController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
+/*
     @DeleteMapping("{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") Integer id) {
         try {
@@ -103,6 +104,6 @@ public class EventoController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
-    }
+    }*/
 
 }
