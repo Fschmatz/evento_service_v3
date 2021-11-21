@@ -16,9 +16,16 @@ public class Inscricao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_inscricao;
-    private Integer id_evento;
-    @Column(name = "id_usuario")
-    private Integer idUsuario;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "id_evento")
+    private Evento idEvento;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "id_usuario")
+    //@Column(name = "id_usuario")
+    private Usuario idUsuario;
+
     private String data;
 
 }

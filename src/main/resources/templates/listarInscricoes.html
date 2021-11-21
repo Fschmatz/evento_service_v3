@@ -25,7 +25,7 @@
 <body>
 <div class="wrapper">
     <h1>
-       MINHAS INSCRIÇÕES
+        MINHAS INSCRIÇÕES
     </h1>
 
 </div>
@@ -43,6 +43,7 @@
                             <tr>
                                 <th>ID INSCRICAO</th>
                                 <th>ID EVENTO</th>
+                                <th>NOME EVENTO</th>
                                 <th>ID USUARIO</th>
                                 <th>DATA</th>
                             </tr>
@@ -50,15 +51,16 @@
                             <tbody>
                             <tr th:each="i : ${inscricaos}">
                                 <td th:text="${i.id_inscricao}"></td>
-                                <td th:text="${i.id_evento}"></td>
-                                <td th:text="${i.idUsuario}"></td>
+                                <td th:text="${i.getIdEvento().getId_evento()}"></td>
+                                <td th:text="${i.getIdEvento().getNome()}"></td>
+                                <td th:text="${i.getIdUsuario().getId_usuario()}"></td>
                                 <td th:text="${i.data}"></td>
                                 <td>
-                                   <!-- <a th:href="@{http://localhost:9091/usuario/edit/{id}(id=${evento.id_evento})}" id="btEditar"
-                                       class="btn btn-success"
-                                       title="INSCRIÇÃO">
-                                        <i class="fa-solid fa-file-plus-minus"></i>
-                                        FAZER INSCRIÇÃO</a>-->
+                                    <!-- <a th:href="@{http://localhost:9091/usuario/edit/{id}(id=${evento.id_evento})}" id="btEditar"
+                                        class="btn btn-success"
+                                        title="INSCRIÇÃO">
+                                         <i class="fa-solid fa-file-plus-minus"></i>
+                                         FAZER INSCRIÇÃO</a>-->
                                 </td>
 
                             </tr>

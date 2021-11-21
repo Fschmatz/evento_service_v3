@@ -20,4 +20,15 @@ public class Evento {
     private String nome;
     private String data;
 
+    public Integer getId_evento() {
+        return id_evento;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getData() {
+        return data;
+    }
 }
