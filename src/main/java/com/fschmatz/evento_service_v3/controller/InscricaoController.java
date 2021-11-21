@@ -35,10 +35,10 @@ public class InscricaoController {
     //http://localhost:9092/inscricao/listarInscricoesUsuario/1
     @RequestMapping("/listarInscricoesUsuario/{id}")
     public ModelAndView listarInscricoesUsuario(@PathVariable("id") Integer id){
-        Usuario teste = new Usuario();
-        teste.setId_usuario(id);
+        Usuario usuarioSite = new Usuario();
+        usuarioSite.setId_usuario(id);
         ModelAndView mv = new ModelAndView("listarInscricoes");
-        Iterable<Inscricao> inscricaos = inscricaoRepository.findInscricaoByIdUsuario(teste);
+        Iterable<Inscricao> inscricaos = inscricaoRepository.findInscricaoByIdUsuario(usuarioSite);
         mv.addObject("inscricaos", inscricaos);
         return mv;
     }
