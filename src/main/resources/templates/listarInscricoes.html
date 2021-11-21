@@ -41,26 +41,26 @@
                         <table class="table table-striped table-responsive-md">
                             <thead>
                             <tr>
-                                <th>ID INSCRICAO</th>
-                                <th>ID EVENTO</th>
+<!--                                <th>ID INSCRICAO</th>-->
+<!--                                <th>ID EVENTO</th>-->
                                 <th>NOME EVENTO</th>
-                                <th>ID USUARIO</th>
+<!--                                <th>ID USUARIO</th>-->
                                 <th>DATA</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:each="i : ${inscricaos}">
-                                <td th:text="${i.id_inscricao}"></td>
-                                <td th:text="${i.getIdEvento().getId_evento()}"></td>
+<!--                                <td th:text="${i.id_inscricao}"></td>-->
+<!--                                <td th:text="${i.getIdEvento().getId_evento()}"></td>-->
                                 <td th:text="${i.getIdEvento().getNome()}"></td>
-                                <td th:text="${i.getIdUsuario().getId_usuario()}"></td>
+<!--                                <td th:text="${i.getIdUsuario().getId_usuario()}"></td>-->
                                 <td th:text="${i.data}"></td>
                                 <td>
-                                    <!-- <a th:href="@{http://localhost:9091/usuario/edit/{id}(id=${evento.id_evento})}" id="btEditar"
+                                     <a th:href="@{http://localhost:9092/inscricao/cancelarInscricao/{id}(id=${i.id_inscricao})}" id="btEditar"
                                         class="btn btn-success"
                                         title="INSCRIÇÃO">
-                                         <i class="fa-solid fa-file-plus-minus"></i>
-                                         FAZER INSCRIÇÃO</a>-->
+
+                                         CANCELAR INSCRIÇÃO</a>
                                 </td>
 
                             </tr>

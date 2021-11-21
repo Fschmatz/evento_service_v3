@@ -57,18 +57,23 @@ public class InscricaoController {
         }
     }
 
-/*
+    @RequestMapping(value = "/cancelarInscricao/{id}", method = RequestMethod.GET)
+    public String handleDeleteUser(@PathVariable Integer id) {
+        System.out.println(id);
+        inscricaoRepository.deleteById(id);
 
-    @GetMapping("{id}")
-    public ResponseEntity<Inscricao> getById(@PathVariable("id") Integer id) {
-        Optional<Inscricao> existingItemOptional = repository.findById(id);
-        if (existingItemOptional.isPresent()) {
-            return new ResponseEntity<>(existingItemOptional.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return "redirect:http://localhost:9092/inscricao/listarInscricoesUsuario/"+id;
     }
-*/
+
+    /*@DeleteMapping("/cancelarInscricao/{id}")
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Integer id) {
+        try {
+            inscricaoRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+    }*/
 
     @PostMapping
     public ResponseEntity<Inscricao> create(@RequestBody Inscricao inscricao) {
