@@ -59,21 +59,9 @@ public class InscricaoController {
 
     @RequestMapping(value = "/cancelarInscricao/{id}", method = RequestMethod.GET)
     public String handleDeleteUser(@PathVariable Integer id) {
-
         inscricaoRepository.deleteById(id);
-
-        return "redirect:/inscricao/teste";
+        return "redirect:/http://pudim.com.br/";
     }
-
-    /*@DeleteMapping("/cancelarInscricao/{id}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Integer id) {
-        try {
-            inscricaoRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
-        }
-    }*/
 
     @PostMapping
     public ResponseEntity<Inscricao> create(@RequestBody Inscricao inscricao) {
