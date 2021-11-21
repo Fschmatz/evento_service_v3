@@ -24,11 +24,6 @@ public class EventoController {
 
     EventoRepository repository;
 
-    /*@GetMapping("/")
-    public String homePage() {
-        return "home";
-    }
-*/
     @RequestMapping("/listarEventos")
     public ModelAndView listarCategoria(){
         ModelAndView mv = new ModelAndView("listarEventos");
@@ -95,15 +90,5 @@ public class EventoController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-/*
-    @DeleteMapping("{id}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Integer id) {
-        try {
-            repository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
-        }
-    }*/
 
 }

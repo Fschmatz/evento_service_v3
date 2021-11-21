@@ -59,10 +59,10 @@ public class InscricaoController {
 
     @RequestMapping(value = "/cancelarInscricao/{id}", method = RequestMethod.GET)
     public String handleDeleteUser(@PathVariable Integer id) {
-        System.out.println(id);
+
         inscricaoRepository.deleteById(id);
 
-        return "redirect:http://localhost:9092/inscricao/listarInscricoesUsuario/"+id;
+        return "redirect:/inscricao/teste";
     }
 
     /*@DeleteMapping("/cancelarInscricao/{id}")
