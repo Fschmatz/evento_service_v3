@@ -58,9 +58,9 @@ public class InscricaoController {
     }
 
     @RequestMapping(value = "/cancelarInscricao/{id}", method = RequestMethod.GET)
-    public String handleDeleteUser(@PathVariable Integer id) {
+    public String cancelarInscricao(@PathVariable Integer id) {
         inscricaoRepository.deleteById(id);
-        return "redirect:/http://pudim.com.br/";
+        return "teste";
     }
 
     @PostMapping
