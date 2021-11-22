@@ -25,10 +25,10 @@
 <body>
 <div class="wrapper">
     <h1>
-       LISTA DE EVENTOS
+        LISTA DE EVENTOS
     </h1>
 
-    <a th:href="@{''}">Current Page</a>
+    <!--   <a th:href="@{''}">Current Page</a>-->
 
 </div>
 <div class="container my-2">
@@ -46,23 +46,26 @@
                                 <th>ID EVENTO</th>
                                 <th>NOME</th>
                                 <th>DATA</th>
+<!--                                <th>teste</th>-->
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="evento : ${eventos}">
-                                <td th:text="${evento.id_evento}"></td>
-                                <td th:text="${evento.nome}"></td>
-                                <td th:text="${evento.data}"></td>
-                                <td>
-                                    <a th:href="@{http://localhost:9092/inscricao/fazerInscricao/1/{idEvento}(idEvento=${evento.id_evento})}" id="btEditar"
-                                       class="btn btn-success"
-                                       title="INSCRIÇÃO">
-                                        <i class="fa-solid fa-file-plus-minus"></i>
-                                        FAZER INSCRIÇÃO</a>
-                                </td>
-<!--                                @{//evento/listarEventos/{id}(id = ${item.id})}          /fazerInscricao/{idUsuario}/{id}-->
+<!--                            <div th:with="someVariable=${idUsuario}">-->
+                                <tr th:each="evento : ${eventos}">
+                                    <td th:text="${evento.id_evento}"></td>
+                                    <td th:text="${evento.nome}"></td>
+                                    <td th:text="${evento.data}"></td>
+<!--                                    <td th:text="${idUsuario}"></td>-->
+                                    <td>
+                                        <a th:href="@{http://localhost:9092/inscricao/fazerInscricao/{idUsuario}/{idEvento}(idUsuario=${idUsuario},idEvento=${evento.id_evento})}" id="btEditar"
+                                           class="btn btn-success"
+                                           title="INSCRIÇÃO">
+                                            <i class="fa-solid fa-file-plus-minus"></i>
+                                            FAZER INSCRIÇÃO</a>
+                                    </td>
 
-                            </tr>
+
+                                </tr>
                             </tbody>
                         </table>
                     </div>

@@ -6,6 +6,7 @@ import com.fschmatz.evento_service_v3.entity.Usuario;
 import com.fschmatz.evento_service_v3.repository.EventoRepository;
 import com.fschmatz.evento_service_v3.repository.InscricaoRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
