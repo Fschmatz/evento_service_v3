@@ -28,6 +28,8 @@
        LISTA DE EVENTOS
     </h1>
 
+    <a th:href="@{''}">Current Page</a>
+
 </div>
 <div class="container my-2">
     <div class="card">
@@ -52,13 +54,13 @@
                                 <td th:text="${evento.nome}"></td>
                                 <td th:text="${evento.data}"></td>
                                 <td>
-                                    <a th:href="@{inscricao/fazerInscricao/{id}(id=${evento.id_evento})}" id="btEditar"
+                                    <a th:href="@{http://localhost:9092/inscricao/fazerInscricao/1/{idEvento}(idEvento=${evento.id_evento})}" id="btEditar"
                                        class="btn btn-success"
                                        title="INSCRIÇÃO">
                                         <i class="fa-solid fa-file-plus-minus"></i>
                                         FAZER INSCRIÇÃO</a>
                                 </td>
-<!--                                @{/pathvars/single/{id}(id = ${item.id})}          /fazerInscricao/{idUsuario}/{id}-->
+<!--                                @{//evento/listarEventos/{id}(id = ${item.id})}          /fazerInscricao/{idUsuario}/{id}-->
 
                             </tr>
                             </tbody>
