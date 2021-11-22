@@ -24,8 +24,8 @@ public class EventoController {
 
     EventoRepository repository;
 
-    @RequestMapping("/listarEventos")
-    public ModelAndView listarCategoria(){
+    @RequestMapping("/listarEventos/{id}")
+    public ModelAndView listarTodosEventos(@PathVariable("id") Integer id){
         ModelAndView mv = new ModelAndView("listarEventos");
         Iterable<Evento> eventos = repository.findAll();
         mv.addObject("eventos", eventos);

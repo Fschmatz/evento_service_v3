@@ -52,12 +52,13 @@
                                 <td th:text="${evento.nome}"></td>
                                 <td th:text="${evento.data}"></td>
                                 <td>
-                                    <a th:href="@{http://localhost:9091/usuario/edit/{id}(id=${evento.id_evento})}" id="btEditar"
+                                    <a th:href="@{inscricao/fazerInscricao/{id}(id=${evento.id_evento})}" id="btEditar"
                                        class="btn btn-success"
                                        title="INSCRIÇÃO">
                                         <i class="fa-solid fa-file-plus-minus"></i>
                                         FAZER INSCRIÇÃO</a>
                                 </td>
+<!--                                @{/pathvars/single/{id}(id = ${item.id})}          /fazerInscricao/{idUsuario}/{id}-->
 
                             </tr>
                             </tbody>

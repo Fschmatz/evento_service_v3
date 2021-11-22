@@ -1,5 +1,6 @@
 package com.fschmatz.evento_service_v3.controller;
 
+import com.fschmatz.evento_service_v3.entity.Evento;
 import com.fschmatz.evento_service_v3.entity.Inscricao;
 import com.fschmatz.evento_service_v3.entity.Usuario;
 import com.fschmatz.evento_service_v3.repository.EventoRepository;
@@ -60,6 +61,23 @@ public class InscricaoController {
     @RequestMapping(value = "/cancelarInscricao/{id}", method = RequestMethod.GET)
     public String cancelarInscricao(@PathVariable Integer id) {
         inscricaoRepository.deleteById(id);
+        return "teste";
+    }
+
+    @RequestMapping(value = "/fazerInscricao/{idUsuario}/{idEvento}", method = RequestMethod.GET)
+    public String fazerInscricao(@PathVariable("idUsuario") Integer idUsuario,@PathVariable("idEvento") Integer idEvento) {
+
+        Inscricao savedItem = new Inscricao();
+        Evento savedEvento = new Evento();
+        savedEvento.setId_evento(idEvento);
+        Usuario savedUsuario = new Usuario();
+        savedUsuario.setId_usuario(idUsuario);
+
+        savedItem.setIdUsuario(savedUsuario);
+        savedItem.setIdEvento(savedEvento);
+
+        savedItem.setData("21/11/2021");
+        inscricaoRepository.save(savedItem);
         return "teste";
     }
 
