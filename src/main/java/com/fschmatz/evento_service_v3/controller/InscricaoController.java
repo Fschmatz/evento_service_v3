@@ -62,7 +62,7 @@ public class InscricaoController {
     @RequestMapping(value = "/cancelarInscricao/{idUsuario}/{idInscricao}", method = RequestMethod.GET)
     public String cancelarInscricao(@PathVariable("idUsuario") Integer idUsuario,@PathVariable("idInscricao") Integer idInscricao) {
         inscricaoRepository.deleteById(idInscricao);
-        return "redirect:http://localhost:9091/usuario/homeUsuario/"+idUsuario;
+        return "redirect:http://localhost:9090/usuario/homeUsuario/"+idUsuario;
     }
 
     @RequestMapping(value = "/fazerInscricao/{idUsuario}/{idEvento}", method = RequestMethod.GET)
@@ -79,7 +79,7 @@ public class InscricaoController {
 
         savedItem.setData("21/11/2021");
         inscricaoRepository.save(savedItem);
-        return "redirect:http://localhost:9091/usuario/homeUsuario/"+idUsuario;
+        return "redirect:http://localhost:9090/usuario/homeUsuario/"+idUsuario;
     }
 
     @PostMapping
