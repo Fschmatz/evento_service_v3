@@ -79,7 +79,7 @@ public class InscricaoController {
 
         savedItem.setData("21/11/2021");
         inscricaoRepository.save(savedItem);
-        return "teste";
+        return "redirect:http://localhost:9091/usuario/homeUsuario/"+idUsuario;
     }
 
     @PostMapping
