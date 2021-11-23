@@ -59,10 +59,10 @@ public class InscricaoController {
         }
     }
 
-    @RequestMapping(value = "/cancelarInscricao/{id}", method = RequestMethod.GET)
-    public String cancelarInscricao(@PathVariable Integer id) {
-        inscricaoRepository.deleteById(id);
-        return "teste";
+    @RequestMapping(value = "/cancelarInscricao/{idUsuario}/{idInscricao}", method = RequestMethod.GET)
+    public String cancelarInscricao(@PathVariable("idUsuario") Integer idUsuario,@PathVariable("idInscricao") Integer idInscricao) {
+        inscricaoRepository.deleteById(idInscricao);
+        return "redirect:http://localhost:9091/usuario/homeUsuario/"+idUsuario;
     }
 
     @RequestMapping(value = "/fazerInscricao/{idUsuario}/{idEvento}", method = RequestMethod.GET)

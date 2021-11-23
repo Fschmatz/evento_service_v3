@@ -56,13 +56,13 @@
 <!--                                <td th:text="${i.getIdUsuario().getId_usuario()}"></td>-->
                                 <td th:text="${i.data}"></td>
                                 <td>
-                                     <a th:href="@{http://localhost:9092/inscricao/cancelarInscricao/{id}(id=${i.id_inscricao})}" id="btEditar"
+                                     <a th:href="@{http://localhost:9092/inscricao/cancelarInscricao/{idUsuario}/{idInscricao}(idUsuario=${i.getIdUsuario().getId_usuario()},idInscricao=${i.id_inscricao})}" id="btEditar"
                                         class="btn btn-success"
                                         title="INSCRIÇÃO">
-
                                          CANCELAR INSCRIÇÃO</a>
                                 </td>
 
+<!--                                @{http://localhost:9092/inscricao/fazerInscricao/{idUsuario}/{idEvento}(idUsuario=${idUsuario},idEvento=${evento.id_evento})}-->
                             </tr>
                             </tbody>
                         </table>
