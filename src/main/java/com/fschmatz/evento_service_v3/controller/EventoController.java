@@ -33,6 +33,16 @@ public class EventoController {
         return mv;
     }
 
+    //VINDO PELA PAGINA DE CHECK-IN
+    @RequestMapping("/listarTodosEventosFazerCheckin/{idUsuario}")
+    public ModelAndView listarTodosEventosCheckin(@PathVariable("idUsuario") Integer id){
+        ModelAndView mv = new ModelAndView("listarEventosParaFazerCheckIn");
+        Iterable<Evento> eventos = repository.findAll();
+        mv.addObject("eventos", eventos);
+        mv.addObject("idUsuario",id);
+        return mv;
+    }
+
 
     @RequestMapping("/eventosUsuario/{id}")
     public ModelAndView eventosUsuario(@PathVariable("id") Integer id){

@@ -25,6 +25,7 @@ public class InscricaoController {
     InscricaoRepository inscricaoRepository;
     EventoRepository eventoRepository;
 
+    //http://localhost:9092/evento/inscricao/listarInscricoes
     @RequestMapping("/listarInscricoes")
     public ModelAndView listarInscricoes(){
         ModelAndView mv = new ModelAndView("listarTodasInscricoes");
@@ -36,11 +37,27 @@ public class InscricaoController {
     //http://localhost:9092/inscricao/listarInscricoesUsuario/1
     @RequestMapping("/listarInscricoesUsuario/{id}")
     public ModelAndView listarInscricoesUsuario(@PathVariable("id") Integer id){
+
+        //SOMENTE com checkin null
         Usuario usuarioSite = new Usuario();
         usuarioSite.setId_usuario(id);
         ModelAndView mv = new ModelAndView("listarInscricoes");
-        Iterable<Inscricao> inscricaos = inscricaoRepository.findInscricaoByIdUsuario(usuarioSite);
+        //Iterable<Inscricao> inscricaos = inscricaoRepository.findInscricaoByIdUsuario(usuarioSite);
+        Iterable<Inscricao> inscricaos = inscricaoRepository.findInscricaoByIdUsuarioAndCheckinEquals(usuarioSite,null);
         mv.addObject("inscricaos", inscricaos);
+        return mv;
+    }
+
+    @RequestMapping("/listarInscricoesUsuarioComCheckin/{id}")
+    public ModelAndView listarInscricoesUsuarioComCheckin(@PathVariable("id") Integer id){
+
+        //SOMENTE com checkin = 1
+        Usuario usuarioSite = new Usuario();
+        usuarioSite.setId_usuario(id);
+        ModelAndView mv = new ModelAndView("listarInscricoesComCheckIn");
+        Iterable<Inscricao> inscricaos = inscricaoRepository.findInscricaoByIdUsuarioAndCheckinEquals(usuarioSite,1);
+        mv.addObject("inscricaos", inscricaos);
+
         return mv;
     }
 
@@ -79,6 +96,25 @@ public class InscricaoController {
         savedItem.setData("21/11/2021");
         inscricaoRepository.save(savedItem);
         return "redirect:http://localhost:9090/usuario/homeUsuario/"+idUsuario;
+    }
+
+    @RequestMapping(value = "/fazerCheckin/{idUsuario}/{idEvento}", method = RequestMethod.GET)
+    public String fazerCheckin(@PathVariable("idUsuario") Integer idUsuario,@PathVariable("idEvento") Integer idEvento) {
+
+        Inscricao savedItem = new Inscricao();
+        Evento savedEvento = new Evento();
+        savedEvento.setId_evento(idEvento);
+        Usuario savedUsuario = new Usuario();
+        savedUsuario.setId_usuario(idUsuario);
+
+        savedItem.setIdUsuario(savedUsuario);
+        savedItem.setIdEvento(savedEvento);
+
+        savedItem.setCheckin(1);
+        savedItem.setData("21/11/2021");
+        inscricaoRepository.save(savedItem);
+        //return "redirect:http://localhost:9090/usuario/homeUsuario/"+idUsuario;
+        return "Obrigado por participar";
     }
 
     @PostMapping

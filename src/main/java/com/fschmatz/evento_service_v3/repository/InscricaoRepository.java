@@ -14,11 +14,5 @@ public interface InscricaoRepository extends JpaRepository<Inscricao, Integer> {
     public Iterable<Inscricao> findInscricaoByIdUsuario(Usuario usuario);
 
 
-    //public Iterable<Inscricao> getAllByIdUsuario(Integer idUsuario);
-
-
-  /*  @Query(value = "select i.id_evento,e.nome,e.data from Inscricao i,Evento e where i.id_evento = e.id_evento and i.id_usuario = :idUsuario", nativeQuery = true)
-    public Iterable<Inscricao> getAllByIdUsuarioComNome(@Param(value="idUsuario")Integer idUsuario);
-*/
-    //Iterable<Inscricao> getAllByIdUsuario(Integer idUsuario);
+    public Iterable<Inscricao> findInscricaoByIdUsuarioAndCheckinEquals(Usuario usuario,Integer checkin);
 }

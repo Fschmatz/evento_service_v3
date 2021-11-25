@@ -27,5 +27,6 @@ public class Inscricao {
     private Usuario idUsuario;
 
     private String data;
+    private Integer checkin;
 
 }
