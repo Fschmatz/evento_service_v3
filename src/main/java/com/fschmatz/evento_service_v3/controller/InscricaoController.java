@@ -93,7 +93,7 @@ public class InscricaoController {
         savedItem.setIdUsuario(savedUsuario);
         savedItem.setIdEvento(savedEvento);
         savedItem.setCheckin(0);
-        savedItem.setData("21/11/2021");
+        savedItem.setData(savedItem.getData());
         inscricaoRepository.save(savedItem);
         return "redirect:http://localhost:9090/usuario/homeUsuario/"+idUsuario;
     }
@@ -109,7 +109,9 @@ public class InscricaoController {
         savedItem.setIdUsuario(savedUsuario);
         savedItem.setIdEvento(savedEvento);
         savedItem.setCheckin(1);
-        savedItem.setData("21/11/2021");
+        savedItem.setData(savedItem.getData());
+        //check para ver se existe, senão salva
+
         inscricaoRepository.save(savedItem);
 
         return "teste";
