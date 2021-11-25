@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.transaction.Transactional;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -79,8 +80,16 @@ public class InscricaoController {
 
     @RequestMapping(value = "/cancelarInscricao/{idUsuario}/{idInscricao}", method = RequestMethod.GET)
     public String cancelarInscricao(@PathVariable("idUsuario") Integer idUsuario,@PathVariable("idInscricao") Integer idInscricao) {
-        inscricaoRepository.deleteById(idInscricao);
-        return "redirect:http://localhost:9090/usuario/homeUsuario/"+idUsuario;
+
+       Inscricao savedItem = inscricaoRepository.getById(idInscricao);
+
+        if(calcularCancelamento(savedItem.getData())){
+            inscricaoRepository.deleteById(idInscricao);
+            return "redirect:http://localhost:9090/usuario/homeUsuario/"+idUsuario;
+        }else{
+            return "error";
+        }
+
     }
 
     @RequestMapping(value = "/fazerInscricao/{idUsuario}/{idEvento}", method = RequestMethod.GET)
@@ -95,7 +104,7 @@ public class InscricaoController {
         savedItem.setIdUsuario(savedUsuario);
         savedItem.setIdEvento(savedEvento);
         savedItem.setCheckin(0);
-        savedItem.setData(getDataDiaInscricao());
+        savedItem.setData(getDataDiaAtual());
         inscricaoRepository.save(savedItem);
         return "redirect:http://localhost:9090/usuario/homeUsuario/"+idUsuario;
     }
@@ -111,7 +120,7 @@ public class InscricaoController {
         savedItem.setIdUsuario(savedUsuario);
         savedItem.setIdEvento(savedEvento);
         savedItem.setCheckin(1);
-        savedItem.setData(getDataDiaInscricao());
+        savedItem.setData(getDataDiaAtual());
 
         //check para ver se existe, senão update
         System.out.println((inscricaoRepository.countByIdUsuarioAndIdEvento(savedUsuario,savedEvento)).toString());
@@ -123,7 +132,7 @@ public class InscricaoController {
             System.out.println("UPDATE");
         }
 
-        return "teste";
+        return "pgAcaoCompleta";
     }
 
     @PostMapping
@@ -139,11 +148,33 @@ public class InscricaoController {
 
 
 
-    // alterardeposi
-    String getDataDiaInscricao(){
+
+
+    // alterar depois
+    String getDataDiaAtual(){
         Date dataAtual = new Date();
         String dataFormatada = new SimpleDateFormat("dd/MM/yyyy").format(dataAtual);
         return dataFormatada;
+    }
+
+    boolean calcularCancelamento(String dataInsc){
+        DateFormat df = new SimpleDateFormat ("dd/MM/yyyy");
+        df.setLenient(false);
+        Date d1 = null;
+        Date d2 = null;
+        try {
+            d1 = df.parse (dataInsc);
+            d2 = df.parse (getDataDiaAtual());
+        } catch (java.text.ParseException evt ) {}
+        long dt = (d2.getTime() - d1.getTime()) + 3600000;
+        long dias = (dt / 86400000L);
+
+        System.out.println(dias);
+        if ( dt / 86400000L <= 2){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 }
