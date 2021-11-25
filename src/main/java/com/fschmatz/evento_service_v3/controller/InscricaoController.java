@@ -113,8 +113,8 @@ public class InscricaoController {
         savedItem.setCheckin(1);
         savedItem.setData("21/11/2021");
         inscricaoRepository.save(savedItem);
-        //return "redirect:http://localhost:9090/usuario/homeUsuario/"+idUsuario;
-        return "Obrigado por participar";
+
+        return "teste";
     }
 
     @PostMapping
