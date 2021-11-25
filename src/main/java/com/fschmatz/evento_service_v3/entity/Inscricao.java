@@ -6,8 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 
 @Entity
 @Data
@@ -30,11 +29,5 @@ public class Inscricao {
 
     private String data;
     private Integer checkin;
-
-    String getDataDiaInscricao(){
-        Date dataAtual = new Date();
-        String dataFormatada = new SimpleDateFormat("dd/MM/yyyy").format(dataAtual);
-        return dataFormatada;
-    }
 
 }

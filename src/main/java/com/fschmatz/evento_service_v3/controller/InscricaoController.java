@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.transaction.Transactional;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -93,7 +95,7 @@ public class InscricaoController {
         savedItem.setIdUsuario(savedUsuario);
         savedItem.setIdEvento(savedEvento);
         savedItem.setCheckin(0);
-        savedItem.setData(savedItem.getData());
+        savedItem.setData(getDataDiaInscricao());
         inscricaoRepository.save(savedItem);
         return "redirect:http://localhost:9090/usuario/homeUsuario/"+idUsuario;
     }
@@ -109,10 +111,17 @@ public class InscricaoController {
         savedItem.setIdUsuario(savedUsuario);
         savedItem.setIdEvento(savedEvento);
         savedItem.setCheckin(1);
-        savedItem.setData(savedItem.getData());
-        //check para ver se existe, senão salva
+        savedItem.setData(getDataDiaInscricao());
 
-        inscricaoRepository.save(savedItem);
+        //check para ver se existe, senão update
+        System.out.println((inscricaoRepository.countByIdUsuarioAndIdEvento(savedUsuario,savedEvento)).toString());
+        if(inscricaoRepository.countByIdUsuarioAndIdEvento(savedUsuario,savedEvento) == 0){
+            inscricaoRepository.save(savedItem);
+            System.out.println("SALVOU NOVO");
+        }else{
+            inscricaoRepository.updateCheckIn(savedEvento,savedUsuario);
+            System.out.println("UPDATE");
+        }
 
         return "teste";
     }
@@ -126,6 +135,15 @@ public class InscricaoController {
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
         }
+    }
+
+
+
+    // alterardeposi
+    String getDataDiaInscricao(){
+        Date dataAtual = new Date();
+        String dataFormatada = new SimpleDateFormat("dd/MM/yyyy").format(dataAtual);
+        return dataFormatada;
     }
 
 }
