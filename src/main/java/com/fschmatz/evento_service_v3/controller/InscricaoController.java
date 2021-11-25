@@ -87,7 +87,7 @@ public class InscricaoController {
             inscricaoRepository.deleteById(idInscricao);
             return "redirect:http://localhost:9090/usuario/homeUsuario/"+idUsuario;
         }else{
-            return "error";
+            return "errorCancel";
         }
 
     }
