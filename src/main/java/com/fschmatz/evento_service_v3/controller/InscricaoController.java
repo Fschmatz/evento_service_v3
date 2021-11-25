@@ -38,12 +38,12 @@ public class InscricaoController {
     @RequestMapping("/listarInscricoesUsuario/{id}")
     public ModelAndView listarInscricoesUsuario(@PathVariable("id") Integer id){
 
-        //SOMENTE com checkin null
+        //SOMENTE com checkin = 0
         Usuario usuarioSite = new Usuario();
         usuarioSite.setId_usuario(id);
         ModelAndView mv = new ModelAndView("listarInscricoes");
         //Iterable<Inscricao> inscricaos = inscricaoRepository.findInscricaoByIdUsuario(usuarioSite);
-        Iterable<Inscricao> inscricaos = inscricaoRepository.findInscricaoByIdUsuarioAndCheckinEquals(usuarioSite,null);
+        Iterable<Inscricao> inscricaos = inscricaoRepository.findInscricaoByIdUsuarioAndCheckinEquals(usuarioSite,0);
         mv.addObject("inscricaos", inscricaos);
         return mv;
     }
@@ -92,7 +92,7 @@ public class InscricaoController {
 
         savedItem.setIdUsuario(savedUsuario);
         savedItem.setIdEvento(savedEvento);
-
+        savedItem.setCheckin(0);
         savedItem.setData("21/11/2021");
         inscricaoRepository.save(savedItem);
         return "redirect:http://localhost:9090/usuario/homeUsuario/"+idUsuario;
@@ -106,10 +106,8 @@ public class InscricaoController {
         savedEvento.setId_evento(idEvento);
         Usuario savedUsuario = new Usuario();
         savedUsuario.setId_usuario(idUsuario);
-
         savedItem.setIdUsuario(savedUsuario);
         savedItem.setIdEvento(savedEvento);
-
         savedItem.setCheckin(1);
         savedItem.setData("21/11/2021");
         inscricaoRepository.save(savedItem);
