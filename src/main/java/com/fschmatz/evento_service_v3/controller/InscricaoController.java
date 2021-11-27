@@ -48,7 +48,6 @@ public class InscricaoController {
         Usuario usuarioSite = new Usuario();
         usuarioSite.setId_usuario(id);
         ModelAndView mv = new ModelAndView("listarInscricoes");
-        //Iterable<Inscricao> inscricaos = inscricaoRepository.findInscricaoByIdUsuario(usuarioSite);
         Iterable<Inscricao> inscricaos = inscricaoRepository.findInscricaoByIdUsuarioAndCheckinEquals(usuarioSite, 0);
         mv.addObject("inscricaos", inscricaos);
         return mv;
@@ -83,8 +82,9 @@ public class InscricaoController {
     @RequestMapping(value = "/cancelarInscricao/{idUsuario}/{idInscricao}", method = RequestMethod.GET)
     public String cancelarInscricao(@PathVariable("idUsuario") Integer idUsuario, @PathVariable("idInscricao") Integer idInscricao) {
 
+        String emailUsuario = usuarioRepository.getById(idUsuario).getEmail();
         Inscricao savedItem = inscricaoRepository.getById(idInscricao);
-        enviarEmail("Usuario", "Sua Inscrição foi Cancelada");
+        enviarEmail("Usuario", emailUsuario,"Sua Inscrição foi Cancelada");
 
         if (calcularCancelamento(savedItem.getData())) {
             inscricaoRepository.deleteById(idInscricao);
@@ -102,13 +102,14 @@ public class InscricaoController {
         savedEvento.setId_evento(idEvento);
         Usuario savedUsuario = new Usuario();
         savedUsuario.setId_usuario(idUsuario);
+        String emailUsuario = usuarioRepository.getById(idUsuario).getEmail();
 
         savedItem.setIdUsuario(savedUsuario);
         savedItem.setIdEvento(savedEvento);
         savedItem.setCheckin(0);
         savedItem.setData(getDataDiaAtual());
         inscricaoRepository.save(savedItem);
-        enviarEmail("Usuario", "Sua Inscrição foi Confirmada");
+        enviarEmail("Usuario", emailUsuario, "Sua Inscrição foi Confirmada");
 
         return "redirect:http://localhost:9090/usuario/homeUsuario/" + idUsuario;
     }
@@ -126,6 +127,8 @@ public class InscricaoController {
         savedItem.setCheckin(1);
         savedItem.setData(getDataDiaAtual());
 
+        String emailUsuario = usuarioRepository.getById(idUsuario).getEmail();
+
         //check para ver se existe, senão update
         System.out.println((inscricaoRepository.countByIdUsuarioAndIdEvento(savedUsuario, savedEvento)).toString());
         if (inscricaoRepository.countByIdUsuarioAndIdEvento(savedUsuario, savedEvento) == 0) {
@@ -135,7 +138,7 @@ public class InscricaoController {
             inscricaoRepository.updateCheckIn(savedEvento, savedUsuario);
             System.out.println("UPDATE");
         }
-        enviarEmail("Usuario", "Você fez Check-In no Evento");
+        enviarEmail("Usuario",emailUsuario, "Você fez Check-In no Evento");
 
         return "pgAcaoCompleta";
     }
@@ -154,18 +157,12 @@ public class InscricaoController {
     @RequestMapping(value = "/certificado/{idUsuario}/{idEvento}", method = RequestMethod.GET)
     public String requisitarCeritficado(@PathVariable("idUsuario") Integer idUsuario, @PathVariable("idEvento") Integer idEvento) {
 
-
-       /* Evento savedEvento = new Evento();
-        savedEvento.setId_evento(idEvento);
-        Usuario savedUsuario = new Usuario();
-        savedUsuario.setId_usuario(idUsuario);*/
-
         String usuario = usuarioRepository.getById(idUsuario).getNome();
         String evento = eventoRepository.getById(idEvento).getNome();
+        String emailUsuario = usuarioRepository.getById(idUsuario).getEmail();
 
-        System.out.println("User ->"+usuario+" EV ->"+evento);
-
-        enviarEmailCertificado(usuario, evento);
+        System.out.println("User -> "+usuario+" Email -> "+emailUsuario+" EV -> "+evento);
+        enviarEmailCertificado(usuario, emailUsuario,evento);
 
         return "redirect:http://localhost:9090/usuario/homeUsuario/" + idUsuario;
     }
@@ -203,19 +200,19 @@ public class InscricaoController {
     }
 
     //http://localhost:9090/email/send/
-    private String enviarEmail(String nome, String msg) {
+    private String enviarEmail(String nome, String email, String msg) {
 
-        String uri = "http://localhost:9090/email/send/" + nome + "/" + msg;
+        String uri = "http://localhost:9090/email/send/" + nome + "/" +email+ "/" + msg;
         RestTemplate restTemplate = new RestTemplate();
         String result = restTemplate.getForObject(uri, String.class);
         return result;
     }
 
-    private String enviarEmailCertificado(String nome,String evento) {
+    private String enviarEmailCertificado(String nome, String email, String evento) {
 
-        String msg = "Olá, este é o certificado de participação no evento "+evento;
+        String msg = "Olá "+ nome+", este é o certificado de participação no evento "+evento+"\n\nAtt\nFschmatz Eventos LLC";
 
-        String uri = "http://localhost:9090/email/send/" + nome + "/" + msg;
+        String uri = "http://localhost:9090/email/send/" + nome + "/" +email+ "/" + msg;
         RestTemplate restTemplate = new RestTemplate();
         String result = restTemplate.getForObject(uri, String.class);
         return result;
