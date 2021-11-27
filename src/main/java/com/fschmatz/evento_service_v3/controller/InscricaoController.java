@@ -5,6 +5,7 @@ import com.fschmatz.evento_service_v3.entity.Inscricao;
 import com.fschmatz.evento_service_v3.entity.Usuario;
 import com.fschmatz.evento_service_v3.repository.EventoRepository;
 import com.fschmatz.evento_service_v3.repository.InscricaoRepository;
+import com.fschmatz.evento_service_v3.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,7 @@ public class InscricaoController {
 
     InscricaoRepository inscricaoRepository;
     EventoRepository eventoRepository;
+    UsuarioRepository usuarioRepository;
 
     //http://localhost:9092/evento/inscricao/listarInscricoes
     @RequestMapping("/listarInscricoes")
@@ -153,13 +155,15 @@ public class InscricaoController {
     public String requisitarCeritficado(@PathVariable("idUsuario") Integer idUsuario, @PathVariable("idEvento") Integer idEvento) {
 
 
-        Evento savedEvento = new Evento();
+       /* Evento savedEvento = new Evento();
         savedEvento.setId_evento(idEvento);
         Usuario savedUsuario = new Usuario();
-        savedUsuario.setId_usuario(idUsuario);
+        savedUsuario.setId_usuario(idUsuario);*/
 
-        String evento = savedEvento.getNome();
-        String usuario = savedUsuario.getNome();
+        String usuario = usuarioRepository.getById(idUsuario).getNome();
+        String evento = eventoRepository.getById(idEvento).getNome();
+
+        System.out.println("User ->"+usuario+" EV ->"+evento);
 
         enviarEmailCertificado(usuario, evento);
 
@@ -201,9 +205,6 @@ public class InscricaoController {
     //http://localhost:9090/email/send/
     private String enviarEmail(String nome, String msg) {
 
-        String nomeUsuario = nome;
-        String mensagem = msg;
-
         String uri = "http://localhost:9090/email/send/" + nome + "/" + msg;
         RestTemplate restTemplate = new RestTemplate();
         String result = restTemplate.getForObject(uri, String.class);
@@ -212,7 +213,6 @@ public class InscricaoController {
 
     private String enviarEmailCertificado(String nome,String evento) {
 
-        String nomeUsuario = nome;
         String msg = "Olá, este é o certificado de participação no evento "+evento;
 
         String uri = "http://localhost:9090/email/send/" + nome + "/" + msg;
