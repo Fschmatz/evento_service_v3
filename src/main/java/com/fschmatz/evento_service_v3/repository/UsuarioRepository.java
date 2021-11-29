@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
-    //public String getById_usuario()
+    public Usuario getByCpf(String cpf);
 }

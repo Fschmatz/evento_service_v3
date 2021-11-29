@@ -2,6 +2,7 @@ package com.fschmatz.evento_service_v3.controller;
 
 import com.fschmatz.evento_service_v3.entity.Evento;
 import com.fschmatz.evento_service_v3.entity.Inscricao;
+import com.fschmatz.evento_service_v3.entity.InscricaoSync;
 import com.fschmatz.evento_service_v3.entity.Usuario;
 import com.fschmatz.evento_service_v3.repository.EventoRepository;
 import com.fschmatz.evento_service_v3.repository.InscricaoRepository;
@@ -216,6 +217,34 @@ public class InscricaoController {
         RestTemplate restTemplate = new RestTemplate();
         String result = restTemplate.getForObject(uri, String.class);
         return result;
+    }
+
+    //APP SYNC
+    //http://localhost:9092/evento/inscricao/listarInscricoes
+    @RequestMapping(value = "/syncInscricao", method = RequestMethod.POST)
+    public Usuario saveSyncUser(InscricaoSync InscricaoSync){
+
+
+        // preciso montar o inscricao aqui, vai vir o cpf tbm junta com essa inscricaoSync
+        // Usar o cpf para requisitar o id do usuario e
+        // então criar a inscricao normal com ele
+        System.out.println(InscricaoSync.toString());
+
+        Usuario usuarioCpf = usuarioRepository.getByCpf(InscricaoSync.getCpf_user());
+        Evento eventoSave = new Evento();
+        eventoSave.setId_evento(InscricaoSync.getId_evento());
+        Inscricao novaInscricao = new Inscricao();
+
+        novaInscricao.setIdUsuario(usuarioCpf);
+        novaInscricao.setIdEvento(eventoSave);
+        novaInscricao.setData(InscricaoSync.getData());
+        novaInscricao.setCheckin(InscricaoSync.getCheckin());
+
+        novaInscricao.toString();
+
+        Inscricao savedItem = inscricaoRepository.save(novaInscricao);
+
+        return null;
     }
 
 }
