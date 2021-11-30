@@ -56,7 +56,7 @@
 <!--                                <td th:text="${i.getIdUsuario().getId_usuario()}"></td>-->
                                 <td th:text="${i.data}"></td>
                                 <td>
-                                     <a th:href="@{http://localhost:9090/evento/inscricao/certificado/{idUsuario}/{idEvento}(idUsuario=${i.getIdUsuario().getId_usuario()},idEvento=${i.getIdEvento().getId_evento()})}" id="btEditar"
+                                     <a th:href="@{http://localhost:9090/evento/inscricao/imprimirCertificado/{idUsuario}/{idEvento}(idUsuario=${i.getIdUsuario().getId_usuario()},idEvento=${i.getIdEvento().getId_evento()})}" id="btEditar"
                                         class="btn btn-success"
                                         title="INSCRIÇÃO">
                                          IMPRIMIR CERTIFICADO</a>

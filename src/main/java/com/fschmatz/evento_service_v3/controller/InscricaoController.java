@@ -1,9 +1,6 @@
 package com.fschmatz.evento_service_v3.controller;
 
-import com.fschmatz.evento_service_v3.entity.Evento;
-import com.fschmatz.evento_service_v3.entity.Inscricao;
-import com.fschmatz.evento_service_v3.entity.InscricaoSync;
-import com.fschmatz.evento_service_v3.entity.Usuario;
+import com.fschmatz.evento_service_v3.entity.*;
 import com.fschmatz.evento_service_v3.repository.EventoRepository;
 import com.fschmatz.evento_service_v3.repository.InscricaoRepository;
 import com.fschmatz.evento_service_v3.repository.UsuarioRepository;
@@ -38,6 +35,26 @@ public class InscricaoController {
         ModelAndView mv = new ModelAndView("listarTodasInscricoes");
         Iterable<Inscricao> inscricaos = inscricaoRepository.findAll();
         mv.addObject("inscricaos", inscricaos);
+        return mv;
+    }
+
+
+    @RequestMapping("/imprimirCertificado/{idUsuario}/{idEvento}")
+    public ModelAndView certificado(@PathVariable("idUsuario") Integer idUsuario, @PathVariable("idEvento") Integer idEvento) {
+
+        String nomeUsuarioCertificado = usuarioRepository.getById(idUsuario).getNome();
+        String nomeEventoCertificado = eventoRepository.getById(idEvento).getNome();
+        String dataEventoCertificado = eventoRepository.getById(idEvento).getData();
+        Certificado certificado = new Certificado();
+
+        ModelAndView mv = new ModelAndView("pgCertificado");
+
+        certificado.setNomeUsuario(nomeUsuarioCertificado);
+        certificado.setNomeEvento(nomeEventoCertificado);
+        certificado.setDataEvento(dataEventoCertificado);
+        certificado.setCargaHoraria("2 Horas");
+
+        mv.addObject("certificado", certificado);
         return mv;
     }
 
