@@ -104,12 +104,8 @@ public class InscricaoController {
         Inscricao savedItem = inscricaoRepository.getById(idInscricao);
         Evento eventoData = eventoRepository.getById(savedItem.getIdEvento().getId_evento());
 
-        //String dataDoEvento = eventoData.getData();
-         //Evento eventoData = eventoRepository.getById(savedItem.getIdEvento().getId_evento()).getData();
-        System.out.println(eventoData.getData());
-
         if (calcularCancelamento(eventoData.getData())) {
-            enviarEmail("Usuario", emailUsuario,"Sua Inscrição foi Cancelada");
+            enviarEmail("Usuario", emailUsuario,"Sua inscrição no evento "+eventoData.getNome()+" foi cancelada.");
             inscricaoRepository.deleteById(idInscricao);
             return "redirect:http://localhost:9090/usuario/homeUsuario/" + idUsuario;
 
@@ -127,13 +123,14 @@ public class InscricaoController {
         Usuario savedUsuario = new Usuario();
         savedUsuario.setId_usuario(idUsuario);
         String emailUsuario = usuarioRepository.getById(idUsuario).getEmail();
+        String nomeEventoEmail = eventoRepository.getById(idEvento).getNome();
 
         savedItem.setIdUsuario(savedUsuario);
         savedItem.setIdEvento(savedEvento);
         savedItem.setCheckin(0);
         savedItem.setData(getDataDiaAtual());
         inscricaoRepository.save(savedItem);
-        enviarEmail("Usuario", emailUsuario, "Sua Inscrição foi Confirmada");
+        enviarEmail("Usuario", emailUsuario, "Sua inscrição no evento "+nomeEventoEmail+" foi confirmada.");
 
         return "redirect:http://localhost:9090/usuario/homeUsuario/" + idUsuario;
     }
@@ -215,7 +212,6 @@ public class InscricaoController {
         long dt = (d2.getTime() - d1.getTime()) + 3600000;
         long dias = (dt / 86400000L);
 
-        System.out.println(dias);
         if (dt / 86400000L <= 2 && dt / 86400000L >= 0) {
             return false;
         } else {
@@ -235,7 +231,6 @@ public class InscricaoController {
     private String enviarEmailCertificado(String nome, String email, String evento) {
 
         String msg = "Olá "+ nome+", este é o certificado de participação no evento "+evento+"\n\nAtt\nFschmatz Eventos LLC";
-
         String uri = "http://localhost:9090/email/send/" + nome + "/" +email+ "/" + msg;
         RestTemplate restTemplate = new RestTemplate();
         String result = restTemplate.getForObject(uri, String.class);
@@ -246,7 +241,6 @@ public class InscricaoController {
     //http://localhost:9092/evento/inscricao/listarInscricoes
     @RequestMapping(value = "/syncInscricao", method = RequestMethod.POST)
     public Usuario saveSyncUser(InscricaoSync InscricaoSync){
-
 
         // preciso montar o inscricao aqui, vai vir o cpf tbm junta com essa inscricaoSync
         // Usar o cpf para requisitar o id do usuario e
