@@ -10,69 +10,41 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
     <!-- <link rel="stylesheet" href="../css/shards.min.css"> -->
     <style>
-        .wrapper {
-            margin-top: 20px;
-            text-align: center;
+
+        html {
+            display: table;
+            margin: auto;
         }
 
-        .btn {
-            background-color: #46ab4a;
+        body {
+            display: table-cell;
+            vertical-align: middle;
         }
 
     </style>
 </head>
 
 <body>
-<div class="wrapper">
-
-</div>
 <div class="container my-2">
-    <div class="card">
-        <div class="card-body">
-            <div th:switch="${certificado}" class="container my-5">
-
-                <div style="width:800px; height:600px; padding:20px; text-align:center; border: 10px solid #787878">
-                    <div style="width:750px; height:550px; padding:20px; text-align:center; border: 5px solid #787878">
-                        <span style="font-size:50px; font-weight:bold">Certificate of Completion</span>
-                        <br><br>
-                        <span style="font-size:25px"><i>This is to certify that</i></span>
-                        <br><br>
-                        <span style="font-size:30px"><b><td th:text="${certificado.nomeUsuario}"></td></b></span><br/><br/>
-                        <span style="font-size:25px"><i>has completed the course</i></span> <br/><br/>
-                        <span style="font-size:30px"><td th:text="${certificado.nomeEvento}"></td></span> <br/><br/>
-                        <span style="font-size:20px"><td th:text="${certificado.cargaHoraria}"></td></b></span> <br/><br/><br/><br/>
-                        <span style="font-size:25px"><i>dated</i></span><br>
-                        <td th:text="${certificado.dataEvento}"></td>
-                        <span style="font-size:30px">$dt</span>
-                    </div>
-                </div>
-
-                <!--<div class="col-md-10">
-                    <h2 th:case="null">Nenhum Evento</h2>
-                    <div th:case="*">
-                        <table class="table table-striped table-responsive-md">
-                            <thead>
-                            <tr>
-                                <th>ID EVENTO</th>
-                                <th>NOME</th>
-                                <th>DATA</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="evento : ${eventosUsuario}">
-                                <td th:text="${evento.id_evento}"></td>
-                                <td th:text="${evento.nome}"></td>
-                                <td th:text="${evento.data}"></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>-->
+    <div th:switch="${certificado}" class="container my-5">
+        <div style="width:800px; height:600px; padding:20px; text-align:center; border: 10px solid #787878">
+            <div style="width:750px; height:550px; padding:20px; text-align:center; border: 5px solid #787878">
+                <span style="font-size:50px; font-weight:bold">Certificado de Conclusão</span>
+                <br><br>
+                <span style="font-size:25px"><i>Certificamos que</i></span>
+                <br><br>
+                <span style="font-size:30px"><b><td th:text="${certificado.nomeUsuario}"></td></b></span><br/><br/>
+                <span style="font-size:25px"><i>participou do evento</i></span> <br/><br/>
+                <span style="font-size:30px"><td th:text="${certificado.nomeEvento}"></td></span> <br/><br/>
+                <span style="font-size:20px"><i>com duração de <td th:text="${certificado.cargaHoraria}"></td></i></b></span> <br/><br/><br/><br/>
+                <span style="font-size:25px"><i>Data do Evento <td th:text="${certificado.dataEvento}"></td></i></span>
 
             </div>
         </div>
+
     </div>
 </div>
+
 </body>
 
 </html>
