@@ -45,7 +45,8 @@
 <!--                                <th>ID EVENTO</th>-->
                                 <th>NOME EVENTO</th>
 <!--                                <th>ID USUARIO</th>-->
-                                <th>DATA</th>
+                                <th>DATA INSCRIÇÃO</th>
+                                <th>DATA EVENTO</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -55,6 +56,7 @@
                                 <td th:text="${i.getIdEvento().getNome()}"></td>
 <!--                                <td th:text="${i.getIdUsuario().getId_usuario()}"></td>-->
                                 <td th:text="${i.data}"></td>
+                                <td th:text="${i.getIdEvento().getData()}"></td>
                                 <td>
                                      <a th:href="@{http://localhost:9090/evento/inscricao/cancelarInscricao/{idUsuario}/{idInscricao}(idUsuario=${i.getIdUsuario().getId_usuario()},idInscricao=${i.id_inscricao})}" id="btEditar"
                                         class="btn btn-success"
