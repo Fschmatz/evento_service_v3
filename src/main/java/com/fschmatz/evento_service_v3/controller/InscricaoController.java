@@ -102,9 +102,13 @@ public class InscricaoController {
 
         String emailUsuario = usuarioRepository.getById(idUsuario).getEmail();
         Inscricao savedItem = inscricaoRepository.getById(idInscricao);
+        Evento eventoData = eventoRepository.getById(savedItem.getIdEvento().getId_evento());
 
-        if (calcularCancelamento(savedItem.getData())) {
+        //String dataDoEvento = eventoData.getData();
+         //Evento eventoData = eventoRepository.getById(savedItem.getIdEvento().getId_evento()).getData();
+        System.out.println(eventoData.getData());
 
+        if (calcularCancelamento(eventoData.getData())) {
             enviarEmail("Usuario", emailUsuario,"Sua Inscrição foi Cancelada");
             inscricaoRepository.deleteById(idInscricao);
             return "redirect:http://localhost:9090/usuario/homeUsuario/" + idUsuario;
@@ -198,13 +202,13 @@ public class InscricaoController {
         return dataFormatada;
     }
 
-    boolean calcularCancelamento(String dataInsc) {
+    boolean calcularCancelamento(String dataEvento) {
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         df.setLenient(false);
         Date d1 = null;
         Date d2 = null;
         try {
-            d1 = df.parse(dataInsc);
+            d1 = df.parse(dataEvento);
             d2 = df.parse(getDataDiaAtual());
         } catch (java.text.ParseException evt) {
         }
@@ -212,10 +216,10 @@ public class InscricaoController {
         long dias = (dt / 86400000L);
 
         System.out.println(dias);
-        if (dt / 86400000L > 2) {
-            return true;
-        } else {
+        if (dt / 86400000L <= 2 && dt / 86400000L >= 0) {
             return false;
+        } else {
+            return true;
         }
     }
 
