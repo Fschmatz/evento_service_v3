@@ -52,7 +52,7 @@ public class InscricaoController {
         certificado.setNomeUsuario(nomeUsuarioCertificado);
         certificado.setNomeEvento(nomeEventoCertificado);
         certificado.setDataEvento(dataEventoCertificado);
-        certificado.setCargaHoraria("2 Horas");
+        certificado.setCargaHoraria("120 Minutos");
 
         mv.addObject("certificado", certificado);
         return mv;
@@ -102,11 +102,13 @@ public class InscricaoController {
 
         String emailUsuario = usuarioRepository.getById(idUsuario).getEmail();
         Inscricao savedItem = inscricaoRepository.getById(idInscricao);
-        enviarEmail("Usuario", emailUsuario,"Sua Inscrição foi Cancelada");
 
         if (calcularCancelamento(savedItem.getData())) {
+
+            enviarEmail("Usuario", emailUsuario,"Sua Inscrição foi Cancelada");
             inscricaoRepository.deleteById(idInscricao);
             return "redirect:http://localhost:9090/usuario/homeUsuario/" + idUsuario;
+
         } else {
             return "errorCancel";
         }
