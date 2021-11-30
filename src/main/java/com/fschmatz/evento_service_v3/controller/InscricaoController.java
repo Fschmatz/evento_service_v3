@@ -173,7 +173,7 @@ public class InscricaoController {
     }
 
     @RequestMapping(value = "/certificado/{idUsuario}/{idEvento}", method = RequestMethod.GET)
-    public String requisitarCeritficado(@PathVariable("idUsuario") Integer idUsuario, @PathVariable("idEvento") Integer idEvento) {
+    public String requisitarCertificado(@PathVariable("idUsuario") Integer idUsuario, @PathVariable("idEvento") Integer idEvento) {
 
         String usuario = usuarioRepository.getById(idUsuario).getNome();
         String evento = eventoRepository.getById(idEvento).getNome();
@@ -186,7 +186,7 @@ public class InscricaoController {
     }
 
 
-// alterar depois
+// alterar depois pra uma classe util
 //----------------------####
 
 
@@ -210,7 +210,7 @@ public class InscricaoController {
         long dias = (dt / 86400000L);
 
         System.out.println(dias);
-        if (dt / 86400000L <= 2) {
+        if (dt / 86400000L > 2) {
             return true;
         } else {
             return false;
