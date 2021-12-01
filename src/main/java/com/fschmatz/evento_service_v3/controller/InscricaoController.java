@@ -4,6 +4,7 @@ import com.fschmatz.evento_service_v3.entity.*;
 import com.fschmatz.evento_service_v3.repository.EventoRepository;
 import com.fschmatz.evento_service_v3.repository.InscricaoRepository;
 import com.fschmatz.evento_service_v3.repository.UsuarioRepository;
+import com.fschmatz.evento_service_v3.util.Encrypt;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +47,8 @@ public class InscricaoController {
         String nomeEventoCertificado = eventoRepository.getById(idEvento).getNome();
         String dataEventoCertificado = eventoRepository.getById(idEvento).getData();
         Certificado certificado = new Certificado();
+
+        enviarEmailCertificado(nomeUsuarioCertificado, usuarioRepository.getById(idUsuario).getEmail(), nomeEventoCertificado);
 
         ModelAndView mv = new ModelAndView("pgCertificado");
 
@@ -105,7 +108,7 @@ public class InscricaoController {
         Evento eventoData = eventoRepository.getById(savedItem.getIdEvento().getId_evento());
 
         if (calcularCancelamento(eventoData.getData())) {
-            enviarEmail("Usuario", emailUsuario,"Sua inscrição no evento "+eventoData.getNome()+" foi cancelada.");
+            enviarEmail("Usuario", emailUsuario, "Sua inscrição no evento " + eventoData.getNome() + " foi cancelada.");
             inscricaoRepository.deleteById(idInscricao);
             return "redirect:http://localhost:9090/usuario/homeUsuario/" + idUsuario;
 
@@ -130,7 +133,7 @@ public class InscricaoController {
         savedItem.setCheckin(0);
         savedItem.setData(getDataDiaAtual());
         inscricaoRepository.save(savedItem);
-        enviarEmail("Usuario", emailUsuario, "Sua inscrição no evento "+nomeEventoEmail+" foi confirmada.");
+        enviarEmail("Usuario", emailUsuario, "Sua inscrição no evento " + nomeEventoEmail + " foi confirmada.");
 
         return "redirect:http://localhost:9090/usuario/homeUsuario/" + idUsuario;
     }
@@ -159,7 +162,7 @@ public class InscricaoController {
             inscricaoRepository.updateCheckIn(savedEvento, savedUsuario);
             System.out.println("UPDATE");
         }
-        enviarEmail("Usuario",emailUsuario, "Você fez Check-In no Evento");
+        enviarEmail("Usuario", emailUsuario, "Você fez Check-In no Evento");
 
         return "pgAcaoCompleta";
     }
@@ -182,8 +185,8 @@ public class InscricaoController {
         String evento = eventoRepository.getById(idEvento).getNome();
         String emailUsuario = usuarioRepository.getById(idUsuario).getEmail();
 
-        System.out.println("User -> "+usuario+" Email -> "+emailUsuario+" EV -> "+evento);
-        enviarEmailCertificado(usuario, emailUsuario,evento);
+        System.out.println("User -> " + usuario + " Email -> " + emailUsuario + " EV -> " + evento);
+        enviarEmailCertificado(usuario, emailUsuario, evento);
 
         return "redirect:http://localhost:9090/usuario/homeUsuario/" + idUsuario;
     }
@@ -222,7 +225,7 @@ public class InscricaoController {
     //http://localhost:9090/email/send/
     private String enviarEmail(String nome, String email, String msg) {
 
-        String uri = "http://localhost:9090/email/send/" + nome + "/" +email+ "/" + msg;
+        String uri = "http://localhost:9090/email/send/" + nome + "/" + email + "/" + msg;
         RestTemplate restTemplate = new RestTemplate();
         String result = restTemplate.getForObject(uri, String.class);
         return result;
@@ -230,8 +233,10 @@ public class InscricaoController {
 
     private String enviarEmailCertificado(String nome, String email, String evento) {
 
-        String msg = "Olá "+ nome+", este é o certificado de participação no evento "+evento+"\n\nAtt\nFschmatz Eventos LLC";
-        String uri = "http://localhost:9090/email/send/" + nome + "/" +email+ "/" + msg;
+        String msgCripto = Encrypt.encrypt("O certificado do Evento " + evento + " é valido.");
+
+        String msg = "Olá " + nome + "\n\nCódigo de validação do certificado:\n\n" + msgCripto + "\n\nAtt\nFschmatz Eventos LLC";
+        String uri = "http://localhost:9090/email/send/" + nome + "/" + email + "/" + msg;
         RestTemplate restTemplate = new RestTemplate();
         String result = restTemplate.getForObject(uri, String.class);
         return result;
@@ -240,7 +245,7 @@ public class InscricaoController {
     //APP SYNC
     //http://localhost:9092/evento/inscricao/listarInscricoes
     @RequestMapping(value = "/syncInscricao", method = RequestMethod.POST)
-    public Usuario saveSyncUser(InscricaoSync InscricaoSync){
+    public Usuario saveSyncUser(InscricaoSync InscricaoSync) {
 
         // preciso montar o inscricao aqui, vai vir o cpf tbm junta com essa inscricaoSync
         // Usar o cpf para requisitar o id do usuario e
