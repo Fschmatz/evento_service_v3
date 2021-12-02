@@ -233,7 +233,9 @@ public class InscricaoController {
 
     private String enviarEmailCertificado(String nome, String email, String evento) {
 
-        String msgCripto = Encrypt.encrypt("O certificado do Evento " + evento + " é valido.");
+        String msgCripto = Encrypt.encriptar("O certificado do Evento " + evento + " é valido.");
+
+        System.out.println(msgCripto);
 
         String msg = "Olá " + nome + "\n\nCódigo de validação do certificado:\n\n" + msgCripto + "\n\nAtt\nFschmatz Eventos LLC";
         String uri = "http://localhost:9090/email/send/" + nome + "/" + email + "/" + msg;
